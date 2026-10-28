@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import ContributionGraph from './components/ContributionGraph';
 import Skills from './components/Skills';
 import Education from './components/Education';
 import Projects from './components/Projects';
@@ -12,15 +13,12 @@ function App() {
   useSmoothScroll();
 
   return (
-    <div className="w-full overflow-x-hidden bg-black relative min-h-screen">
-      {/* Background Layers */}
-      <div className="vignette" aria-hidden="true" />
-      <div className="noise-overlay" aria-hidden="true" />
-
+    <div className="w-full overflow-x-hidden bg-background relative min-h-screen">
       <div className="relative z-10">
         <Navbar />
         <main>
           <Hero />
+          <ContributionGraph />
           <Skills />
           <Projects />
           <Education />

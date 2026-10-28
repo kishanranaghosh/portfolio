@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Home, Zap, GraduationCap, FolderGit2, Mail } from "lucide-react";
 import { scrollToSection } from "../hooks/useSmoothScroll";
 
@@ -62,57 +62,43 @@ const Navbar = () => {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="fixed top-0 left-0 right-0 z-50 hidden md:block px-8"
-        style={{ paddingTop: "24px" }}
+        className="fixed top-0 left-0 right-0 z-50 hidden md:block px-6 border-b border-border/60 bg-background/80 backdrop-blur-sm"
+        style={{ paddingTop: "20px" }}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          {/* Logo */}
           <button
             onClick={() => handleNavClick("home")}
-            className="text-white text-base font-semibold tracking-tight hover:opacity-70 transition-opacity"
-            style={{ fontFamily: "JetBrains Mono, monospace" }}
+            className="font-mono text-foreground text-base font-semibold tracking-tight hover:opacity-70 transition-opacity"
           >
             KISHAN
           </button>
 
-          {/* Navigation Links */}
-          <div
-            className="flex items-center"
-            style={{ gap: "36px" }}
-          >
+          <div className="flex items-center" style={{ gap: "36px" }}>
             {navItems.map((item) => {
               const isActive = activeSection === item.id;
               return (
                 <button
                   key={item.id}
                   onClick={() => handleNavClick(item.id)}
-                  className="relative group"
+                  className="relative group font-mono text-[11px] tracking-[0.15em] font-medium uppercase transition-colors"
                   style={{
-                    fontFamily: "JetBrains Mono, monospace",
-                    fontSize: "11px",
-                    letterSpacing: "0.15em",
-                    fontWeight: 500,
-                    textTransform: "uppercase",
                     color: isActive
-                      ? "rgba(255,255,255,1)"
-                      : "rgba(255,255,255,0.65)",
-                    transition: "color 0.2s ease",
+                      ? "hsl(var(--foreground))"
+                      : "hsl(var(--muted-foreground))",
                   }}
                 >
-                  <span className="opacity-50" style={{ fontWeight: 400 }}>
-                    {item.num}/
-                  </span>
-                  <span className="ml-[2px]">{item.label}</span>
-                  {/* Active underline */}
+                  {item.label}
                   {isActive && (
                     <motion.div
-                      layoutId="nav-underline"
-                      className="absolute -bottom-[3px] left-0 right-0 h-[1px] bg-white"
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
                       transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                      className="absolute -bottom-[3px] left-0 right-0 h-[1px] bg-accent"
                     />
                   )}
-                  {/* Hover line (inactive) */}
-                  <span className="absolute -bottom-[3px] left-0 right-0 h-[1px] bg-white/50 scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+                  <span
+                    className="absolute -bottom-[3px] left-0 right-0 h-[1px] bg-border/40 scale-x-0 group-hover:scale-x-100 transition-transform origin-left"
+                  />
                 </button>
               );
             })}
@@ -139,10 +125,10 @@ const Navbar = () => {
             display: "flex",
             alignItems: "center",
             gap: "4px",
-            background: "rgba(0,0,0,0.85)",
+            background: "rgba(255,255,255,0.7)",
             backdropFilter: "blur(20px)",
             WebkitBackdropFilter: "blur(20px)",
-            border: "1px solid rgba(255,255,255,0.08)",
+            border: "1px solid rgba(0,0,0,0.08)",
             borderRadius: "30px",
           }}
         >
@@ -154,13 +140,11 @@ const Navbar = () => {
                 onClick={() => handleNavClick(item.id)}
                 className="flex flex-col items-center justify-center gap-[2px] transition-all duration-200"
                 style={{
-                  opacity: isActive ? 1 : 0.5,
+                  opacity: isActive ? 1 : 0.45,
                   width: "52px",
                   height: "48px",
                   borderRadius: "20px",
-                  background: isActive
-                    ? "rgba(255,255,255,0.08)"
-                    : "transparent",
+                  background: isActive ? "rgba(0,0,0,0.06)" : "transparent",
                   transform: isActive ? "scale(1)" : "scale(0.95)",
                   transition: "all 0.2s cubic-bezier(0.22, 1, 0.36, 1)",
                 }}
@@ -176,7 +160,7 @@ const Navbar = () => {
                     transition: "filter 0.2s ease",
                   }}
                 >
-                  <item.icon size={16} />
+                  <item.icon size={16} style={{ color: isActive ? "#191919" : "#80808a" }} />
                 </span>
                 <span
                   style={{
@@ -185,9 +169,7 @@ const Navbar = () => {
                     fontWeight: 500,
                     letterSpacing: "0.05em",
                     textTransform: "uppercase",
-                    color: isActive
-                      ? "rgba(255,255,255,1)"
-                      : "rgba(255,255,255,0.5)",
+                    color: isActive ? "rgba(25,25,25,1)" : "rgba(128,128,138,0.9)",
                     transition: "color 0.2s ease",
                   }}
                 >

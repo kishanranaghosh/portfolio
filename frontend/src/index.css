@@ -2,7 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -11,7 +13,6 @@
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
   touch-action: pan-y;
 }
 
@@ -20,35 +21,33 @@ body {
   font-family: "Inter", system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #000000;
-  color: #e2e8f0;
+  background-color: #ffffff;
+  color: #191919;
   overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
-  touch-action: pan-y;
 }
 
 @layer base {
   :root {
-    --background: 0 0% 0%;
-    --foreground: 0 0% 90%;
-    --card: 0 0% 3%;
-    --card-foreground: 0 0% 90%;
-    --popover: 0 0% 3%;
-    --popover-foreground: 0 0% 90%;
-    --primary: 0 0% 90%;
-    --primary-foreground: 0 0% 0%;
-    --secondary: 0 0% 8%;
-    --secondary-foreground: 0 0% 90%;
-    --muted: 0 0% 8%;
-    --muted-foreground: 0 0% 50%;
-    --accent: 0 0% 12%;
-    --accent-foreground: 0 0% 90%;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
+    --primary: 240 7% 22%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 4% 97%;
+    --secondary-foreground: 0 0% 10%;
+    --muted: 240 4% 97%;
+    --muted-foreground: 240 4% 52%;
+    --accent: 240 7% 22%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 90%;
-    --border: 0 0% 12%;
-    --input: 0 0% 10%;
-    --ring: 0 0% 70%;
-    --radius: 0.75rem;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 4% 90%;
+    --input: 240 4% 90%;
+    --ring: 240 5% 45%;
+    --radius: 0.5rem;
   }
 }
 
@@ -66,96 +65,51 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #000000;
+  background: #f8f8f9;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.08);
+  background: #d6d6dc;
   border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: #c9c9d0;
 }
 
-/* ====== Noise Texture ====== */
-.noise-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.025;
-  mix-blend-mode: overlay;
+/* ====== Scroll-triggered blur reveal ======
+   The `.reveal` state is only applied by JavaScript after the
+   Intersection Observer has been initialised, so content always
+   remains visible by default (and under reduced motion).
+*/
+.reveal {
+  opacity: 0;
+  filter: blur(6px);
+  transform: translateY(10px);
+  transition:
+    opacity 550ms ease-out,
+    filter 550ms ease-out,
+    transform 550ms ease-out;
 }
 
-.noise-overlay::before {
-  content: "";
-  position: absolute;
-  inset: -50%;
-  width: 200%;
-  height: 200%;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
+.reveal.is-visible {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
 }
 
-/* ====== Vignette ====== */
-.vignette {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background: radial-gradient(
-    ellipse 75% 55% at 50% 50%,
-    transparent 30%,
-    rgba(0, 0, 0, 0.5) 100%
-  );
-}
-
-/* ====== GPU Acceleration ====== */
-.gpu {
-  will-change: transform;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
-
-/* ====== Mobile: disable heavy effects ====== */
-@media (max-width: 767px) {
-  .noise-overlay {
-    display: none;
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal.is-visible {
+    opacity: 1;
+    filter: none;
+    transform: none;
+    transition: none;
   }
-  .vignette {
-    display: none;
-  }
-  html, body {
-    scroll-behavior: auto !important;
-  }
-}
-
-/* ====== Card ====== */
-.card-premium {
-  background: rgba(255, 255, 255, 0.015);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  will-change: transform;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1), transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.card-premium:hover {
-  border-color: rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.025);
-  transform: translateZ(0) translateY(-2px);
-}
-
-/* ====== Section ====== */
-section {
-  scroll-margin-top: 100px;
-  position: relative;
-  z-index: 2;
 }
 
 /* ====== Selection ====== */
 ::selection {
-  background: rgba(255, 255, 255, 0.12);
-  color: #ffffff;
+  background: #d6d6dc;
+  color: #191919;
 }
