@@ -15,19 +15,19 @@ const Hero = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.3,
+        staggerChildren: 0.1,
+        delayChildren: 0.05,
       },
     },
   };
 
   const fadeUpItem = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.8,
+        duration: 0.5,
         ease: [0.22, 1, 0.36, 1],
       },
     },
@@ -58,46 +58,40 @@ const Hero = () => {
   ];
 
   return (
-    <section
-      id="home"
-      className="relative min-h-screen flex items-center justify-center px-4 pt-32 pb-24 overflow-hidden"
-    >
+    <section id="home" className="relative py-24 px-4">
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="max-w-5xl w-full text-center relative z-10"
+        className="max-w-5xl mx-auto text-center relative z-10"
       >
         {/* Profile Image */}
-        <motion.div variants={fadeUpItem} className="mb-10 flex justify-center">
+        <motion.div variants={fadeUpItem} className="mb-8 flex justify-center">
           <div className="relative">
-            <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border border-white/[0.08] bg-black/50">
+            <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden border border-border">
               <img
                 src={kishan}
                 alt="Kishan Rana Ghosh"
-                className="w-full h-full object-cover rounded-full"
+                className="w-full h-full object-cover"
                 loading="eager"
               />
             </div>
           </div>
         </motion.div>
 
-        {/* Hero Title - Massive typography */}
-        <motion.h1
-          variants={fadeUpItem}
-          className="select-none"
-        >
-          <span className="block text-[clamp(44px,14vw,160px)] font-black leading-[0.85] tracking-[-0.05em] text-white mb-2">
+        {/* Name */}
+        <motion.h1 variants={fadeUpItem} className="select-none">
+          <span className="block text-[clamp(30px,8vw,40px)] font-black leading-[1.05] tracking-[-0.02em] text-foreground mb-1">
             KISHAN
           </span>
-          <span className="block text-[clamp(44px,14vw,160px)] font-black leading-[0.85] tracking-[-0.05em] text-white/35">
+          <span className="block text-[clamp(30px,8vw,40px)] font-black leading-[1.05] tracking-[-0.02em] text-text-secondary">
             RANA GHOSH
           </span>
         </motion.h1>
 
         {/* Role Tag */}
-        <motion.div variants={fadeUpItem} className="mt-6 mb-4">
-          <span className="inline-block text-xs text-white/40 font-medium tracking-[0.2em] uppercase">
+        <motion.div variants={fadeUpItem} className="mt-4 mb-6">
+          <span className="inline-block text-[11px] text-text-secondary font-medium tracking-[0.18em] uppercase">
             {personal.title}
           </span>
         </motion.div>
@@ -105,7 +99,7 @@ const Hero = () => {
         {/* Description */}
         <motion.p
           variants={fadeUpItem}
-          className="text-white/40 text-sm md:text-base max-w-xl mx-auto mb-12 leading-relaxed font-normal tracking-wide"
+          className="text-text-muted text-base md:text-lg max-w-xl mx-auto mb-14 leading-[1.7] font-normal"
         >
           {personal.tagline}
         </motion.p>
@@ -132,9 +126,9 @@ const Hero = () => {
               >
                 <a
                   {...extraProps}
-                  className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full border border-white/[0.1] bg-white/[0.03] text-white/70 text-sm font-medium hover:bg-white/[0.07] hover:border-white/[0.18] hover:text-white transition-all duration-300"
+                  className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-md border border-border/40 bg-surface-subtle text-foreground text-sm font-medium hover:bg-accent hover:text-white transition-colors duration-300"
                 >
-                  <Icon size={15} className="text-white/40" />
+                  <Icon size={15} className="text-text-secondary" />
                   <span>{link.label}</span>
                 </a>
               </motion.div>
@@ -145,12 +139,12 @@ const Hero = () => {
         {/* Email */}
         <motion.div
           variants={fadeUpItem}
-          className="flex items-center justify-center gap-2 text-white/25 text-xs"
+          className="flex items-center justify-center gap-2 text-text-muted text-xs"
         >
-          <span className="w-1 h-1 rounded-full bg-white/20" />
+          <span className="w-1 h-1 rounded-full bg-border" />
           <a
             href={`mailto:${personal.email}`}
-            className="hover:text-white/50 transition-colors duration-200 tracking-wide"
+            className="text-text-secondary hover:text-foreground underline underline-offset-4 transition-colors duration-200 tracking-wide"
           >
             {personal.email}
           </a>
@@ -159,12 +153,12 @@ const Hero = () => {
 
       {/* Scroll indicator */}
       <motion.button
-        onClick={() => scrollToSection("skills")}
+        onClick={() => scrollToSection("contributions")}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2.5, duration: 0.5 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/20 hover:text-white/40 transition-colors z-10"
-        aria-label="Scroll to skills"
+        transition={{ delay: 1, duration: 0.5 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-text-muted hover:text-text-secondary transition-colors z-10"
+        aria-label="Scroll to contributions"
       >
         <motion.div
           animate={{ y: [0, 5, 0] }}
